@@ -54,7 +54,7 @@ public class OlsController {
         }
     }
 
-    @GetMapping("/course")
+    @RequestMapping("/course")
     public List<Course> getStudentCourse() {
         try {
             /*Class.forName("org.h2.Driver");
