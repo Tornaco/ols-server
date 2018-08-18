@@ -27,6 +27,10 @@ public class UserCenter {
         userMap.remove(user.getUsername());
     }
 
+    public User getUserByName(String name) {
+        return userMap.get(name);
+    }
+
     public boolean isRegister(User user){
         return userMap.containsKey(user.getUsername());
 

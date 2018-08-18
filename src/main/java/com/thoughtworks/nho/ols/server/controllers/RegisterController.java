@@ -1,5 +1,6 @@
 package com.thoughtworks.nho.ols.server.controllers;
 
+import com.thoughtworks.nho.ols.server.auth.UserAuth;
 import com.thoughtworks.nho.ols.server.domain.User;
 import com.thoughtworks.nho.ols.server.repo.UserCenter;
 import org.apache.logging.log4j.util.Strings;
@@ -15,6 +16,7 @@ import java.util.UUID;
 
 @RestController(value = "/api")
 public class RegisterController {
+
     private UserCenter uc = UserCenter.getInstance();
 
     @RequestMapping(value = "/register")
@@ -36,24 +38,17 @@ public class RegisterController {
         }
 
     }
-    /*@RequestMapping(value = "/login", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestBody User user) {
-        if (user.getId() == null) {
-            return new ResponseEntity<>(createTokenForUser(user), HttpStatus.BAD_REQUEST);
-        }
-        if (uc.getUserById(user.getId()) == null) {
+        if (!uc.isRegister(user)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        if (uc.hasUser(user) {
-            return new ResponseEntity<>(createTokenForUser(user), HttpStatus.OK);
+        } else if (user.equals(uc.getUserByName(user.getUsername()))) {
+            return new ResponseEntity<>(new UserAuth().createTokenForUser(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    public String createTokenForUser(User user) {
-        return user.getId() == null ? null : String.valueOf(user.getId().hashCode());
-    }*/
-
 }
 
