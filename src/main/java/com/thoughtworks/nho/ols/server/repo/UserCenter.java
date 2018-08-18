@@ -35,5 +35,14 @@ public class UserCenter {
         return userMap.containsKey(user.getUsername());
 
     }
+    public boolean hasUser(User user) {
+        User usr = userMap.get(user.getUsername());
+        if (null == usr) {
+            return false;
+        }else if (usr.getUsername().equals(user.getUsername()) && usr.getPassword().equals(user.getPassword())) {
+            return true;
+        }
+        return false;
+    }
 
 }
