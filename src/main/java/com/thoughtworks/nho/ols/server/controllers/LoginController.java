@@ -4,6 +4,8 @@ import com.thoughtworks.nho.ols.server.auth.UserAuth;
 import com.thoughtworks.nho.ols.server.domain.User;
 import com.thoughtworks.nho.ols.server.repo.UserRepo;
 import com.thoughtworks.nho.ols.server.repo.local.MapUserRepo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -21,15 +23,17 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam User user) {
-        if (user.getId() == null) return null;
-        boolean exist = userRepo.getUserById(user.getId()) != null;
-        if (!exist) return null;
-        boolean match = userRepo.getUserById(user.getId())
-                .equals(user);
-        if (match) {
-            return userAuth.createTokenForUser(user);
+    public ResponseEntity<String> login(@RequestBody User user) {
+        if (user.getId() == null) {
+            return new ResponseEntity<>(userAuth.createTokenForUser(user), HttpStatus.BAD_REQUEST);
         }
-        return null;
+        if (userRepo.getUserById(user.getId()) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (userRepo.getUserById(user.getId()).equals(user)) {
+            return new ResponseEntity<>(userAuth.createTokenForUser(user), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
