@@ -48,7 +48,7 @@ public class OlsController {
     public ResponseEntity<String> login(@RequestBody User user) {
         if (!uc.isRegister(user)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else if (user.equals(uc.getUserByName(user.getUsername()))) {
+        } else if (uc.hasUser(user)) {
             return new ResponseEntity<>(new UserAuth().createTokenForUser(user), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -87,6 +87,13 @@ public class OlsController {
             //return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return null;
         }
+
+
+    }
+
+    @GetMapping("/hello")
+    public String greeting() {
+        return "success";
     }
 }
 
