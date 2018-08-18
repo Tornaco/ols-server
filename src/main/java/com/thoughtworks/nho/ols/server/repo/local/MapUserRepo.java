@@ -14,23 +14,21 @@ public class MapUserRepo implements UserRepo {
     public void addUser(User user) {
         if (!storage.containsKey(user.getId())) {
             storage.put(user.getId(), user);
-        } else {
-            
         }
     }
 
     @Override
     public void removeUser(User user) {
-
+        storage.remove(user.getId());
     }
 
     @Override
     public void updateUser(User user) {
-
+        storage.put(user.getId(), user);
     }
 
     @Override
     public User getUserById(String id) {
-        return null;
+        return storage.get(id);
     }
 }
