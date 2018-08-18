@@ -4,10 +4,7 @@ import com.thoughtworks.nho.ols.server.auth.UserAuth;
 import com.thoughtworks.nho.ols.server.domain.User;
 import com.thoughtworks.nho.ols.server.repo.UserRepo;
 import com.thoughtworks.nho.ols.server.repo.local.MapUserRepo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -23,7 +20,7 @@ public class LoginController {
         return "Hello" + new Date().toString();
     }
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam User user) {
         if (user.getId() == null) return null;
         boolean exist = userRepo.getUserById(user.getId()) != null;
