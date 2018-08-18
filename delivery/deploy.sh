@@ -7,6 +7,8 @@ if [ ! -n "$1" ] ;then
     exit -1
 fi
 
+docker ps -a
+
 docker rm -f $(docker ps -a | grep team-b | awk '{print $1}') || echo 'Not existed'
 
 docker run --rm -d --name team-b-html -p $1:8080 -v $(pwd)/frontend/build/:/usr/share/nginx/html -v $(pwd)/config/nginx.conf:/etc/nginx/conf.d/default.conf nginx /bin/bash -c "systemctl restart nginx"
