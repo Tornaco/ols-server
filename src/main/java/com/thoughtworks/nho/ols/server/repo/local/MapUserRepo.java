@@ -10,6 +10,10 @@ public class MapUserRepo implements UserRepo {
 
     private final Map<String, User> storage = new HashMap<>();
 
+    public MapUserRepo() {
+        addUser(new User("Admin", "Admin@tw", "0"));
+    }
+
     @Override
     public void addUser(User user) {
         if (!storage.containsKey(user.getId())) {
