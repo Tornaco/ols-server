@@ -17,7 +17,8 @@ import java.util.UUID;
  * @author hpliu on 2018/8/18.
  */
 
-@RestController(value = "/api")
+@RestController
+@RequestMapping(value = "/api")
 public class OlsController {
 
     private UserCenter uc = UserCenter.getInstance();
