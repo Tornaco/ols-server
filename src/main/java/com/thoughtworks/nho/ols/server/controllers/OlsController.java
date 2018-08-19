@@ -23,7 +23,7 @@ public class OlsController {
 
     private UserCenter uc = UserCenter.getInstance();
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/users")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> register(@RequestBody User user) throws Exception {
         String username = user.getUsername();
@@ -38,24 +38,25 @@ public class OlsController {
             String userId = UUID.randomUUID().toString();
             User usr = new User(username, password, userId);
             uc.addUser(username, usr);
-            return new ResponseEntity<>("register success,please login.", HttpStatus.OK);
+            return new ResponseEntity<>("register success,please login.", HttpStatus.CREATED);
         }
 
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/sessions", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<String> login(@RequestBody User user) {
         if (!uc.isRegister(user)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (uc.hasUser(user)) {
-            return new ResponseEntity<>(new UserAuth().createTokenForUser(user), HttpStatus.OK);
+            return new ResponseEntity<>(new UserAuth().createTokenForUser(user), HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping("/course")
+    @RequestMapping("/courses")
+    @ResponseStatus(HttpStatus.OK)
     public List<Course> getStudentCourse() {
         try {
             /*Class.forName("org.h2.Driver");
