@@ -80,7 +80,7 @@ public class OlsController {
                 stuCourse.date=rs.getString("DATE");
                 courseList.add(stuCourse);
             }*/
-            String a = String.join(",", courseList.toString());
+            // String a = String.join(",", courseList.toString());
             //return new ResponseEntity<>(a, HttpStatus.OK);
             return courseList;
         } catch (Exception e) {
