@@ -5,8 +5,10 @@ import com.thoughtworks.nho.ols.server.domain.Course;
 import com.thoughtworks.nho.ols.server.domain.User;
 import com.thoughtworks.nho.ols.server.repo.UserCenter;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -49,7 +51,9 @@ public class OlsController {
         if (!uc.isRegister(user)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else if (uc.hasUser(user)) {
-            return new ResponseEntity<>(new UserAuth().createTokenForUser(user), HttpStatus.CREATED);
+            MultiValueMap<String, String> headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION,"Token " + new UserAuth().createTokenForUser(user));
+            return new ResponseEntity<>(headers,HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
